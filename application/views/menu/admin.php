@@ -6,14 +6,6 @@
 </li>
 
 <li class="nav-item active" >
-  <a href="<?php echo base_url('user'); ?>">
-    <i class="fas fa-user"></i>
-    <p>Pengguna</p>
-  </a>
-</li>
-
-
-<li class="nav-item active" >
   <a href="<?php echo base_url('role'); ?>">
     <i class="fas fa-user-tag"></i>
     <p>Hak Akses</p>
@@ -21,36 +13,29 @@
 </li>
 
 <li class="nav-item active" >
-  <a href="<?php echo base_url('team'); ?>">
-    <i class="fas fa-users"></i>
-    <p>Tim</p>
+  <a href="<?php echo base_url('user'); ?>">
+    <i class="fas fa-user"></i>
+    <p>Pengguna</p>
   </a>
 </li>
 
 <li class="nav-item active" >
-  <a href="<?php echo base_url('category'); ?>">
+  <a href="<?php echo base_url('product'); ?>">
     <i class="fas fa-list"></i>
-    <p>Kategori</p>
+    <p>Produk</p>
   </a>
 </li>
 
 <li class="nav-item active" >
-  <a href="<?php echo base_url('job'); ?>">
+  <a href="<?php echo base_url('stock'); ?>">
     <i class="fas fa-wrench"></i>
-    <p>Job/Aplikasi</p>
+    <p>Stok</p>
   </a>
 </li>
 
 <li class="nav-item active" >
-  <a href="<?php echo base_url('cartridge'); ?>">
+  <a href="<?php echo base_url('order'); ?>">
     <i class="fas fa-hdd"></i>
-    <p>Cartridge/Volser</p>
-  </a>
-</li>
-
-<li class="nav-item active" >
-  <a href="<?php echo base_url('dataset'); ?>">
-    <i class="fas fa-sticky-note"></i>
-    <p>Data Set</p>
+    <p>Order</p>
   </a>
 </li>

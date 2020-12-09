@@ -9,16 +9,16 @@ class Role_model extends CI_Model
     parent::__construct();
   }
 
-  public function contentRole()
+  public function content()
   {
-    if ($this->session->userdata['roleId'] == 1)
+    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      $data['viewName'] = 'master/role';
+      $data['viewName'] = 'role/index';
       return $data;
     }
     else
     {
-      notify("Tidak Ada Akses", "Mohon maaf anda tidak memiliki hak akses untuk dapat mengakses halaman ini, silahkan hubungi IT Admin atau Super Admin", "danger", "fas fa-ban", "dashboard" );
+      notify("Tidak Ada Akses", "Mohon maaf anda tidak memiliki hak akses untuk dapat mengakses halaman ini, silahkan hubungi IT Admin atau Super Admin", "danger", "fas fa-ban", "home" );
     }
   }
 
@@ -43,7 +43,7 @@ class Role_model extends CI_Model
 
   public function update()
   {
-    if ($this->session->userdata('role')=="admin") {
+    if ($this->session->userdata('roleId')!=$this->config->item('customer_role_id')) {
       return json_encode($this->core_model->updateDataBatch('role',  'id', $this->input->post('id'), $this->input->post()));
     }
     
@@ -51,14 +51,14 @@ class Role_model extends CI_Model
 
   public function recover()
   {
-    if ($this->session->userdata('role')=="admin") {
+    if ($this->session->userdata('roleId')!=$this->config->item('customer_role_id')) {
       return json_encode($this->core_model->recoverData('role', 'id', $this->input->post('id')));
     }
   }
 
   public function delete()
   {
-    if ($this->session->userdata('role')=="admin") {
+    if ($this->session->userdata('roleId')!=$this->config->item('customer_role_id')) {
       return json_encode($this->core_model->deleteData('role', 'id', $this->input->post('id')));
     }
     

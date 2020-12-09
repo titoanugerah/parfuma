@@ -12,9 +12,8 @@ class Role extends CI_Controller
   }
 
   public function index(){
-    $this->load->view('template', $this->role_model->contentRole());
+    $this->load->view('shared/template/management', $this->role_model->content());
   }
-
 
   #API
   public function read()

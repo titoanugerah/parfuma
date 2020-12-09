@@ -165,6 +165,66 @@ class Core_model extends CI_Model
     return json_encode($upload);
   }
 
+  public function account()
+  {
+    try {
+    //Call lib
+      require_once 'vendor/autoload.php';
+      $client = new Google_Client();
+      $client->setAuthConfig('assets/client_credentials.json');
+      $client->addScope("email");
+      $client->addScope("profile");
+      if (!$this->session->userdata('isLogin'))
+      {
+        if (isset($_GET['code']))
+        {
+          $token = $client->fetchAccessTokenWithAuthCode($this->input->get('code'));
+          $client->setAccessToken($token['access_token']);
+          $validUser = (new Google_Service_Oauth2($client))->userinfo->get();
+          $data = array(
+            'name' =>  $validUser->name,
+            'image' => $validUser->picture,
+          );
+          
+          $isRegisteredUser = $this->getNumRows('user', 'email', $validUser->email);
+          if ($isRegisteredUser)
+          {
+            $this->updateSomeData('user', 'email', $validUser->email, $data);
+          }
+          else
+          {
+            $newUser = array(
+              'name' => $data['name'],
+              'email' => $validUser->email,
+              'image' => $data['image'],
+              'roleId' => $this->config->item('customer_role_id')
+            );
+            $this->createData('user', $newUser);
+          }
+          $user = $this->readSingleData('viewUser', 'email', $validUser->email);
+          $userdata = array(
+            'isLogin' => true,
+            'id' => $user->id,
+            'name' => $user->name,
+            'email' => $user->email,
+            'image' => $user->image,
+            'roleId' => $user->roleId,
+            'role' => $user->role,
+          );
+          $this->session->set_userdata($userdata);
+          redirect(base_url('home'));
+          //notify('Berhasil', 'Login berhasil, Selamat datang '.$this->session->userdata['name'], 'success', 'fa fa-user','');
+        }
+        else
+        {
+          $this->session->set_flashdata('link', $client->createAuthUrl());
+        }
+      }
+    } catch (Exception $e) {
+      return $e->getMessage();
+    }
+  }
+
 
 }
  ?>

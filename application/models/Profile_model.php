@@ -1,7 +1,8 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class User extends CI_Controller
+
+class Profile_model extends CI_Model
 {
 
   function __construct()
@@ -9,12 +10,13 @@ class User extends CI_Controller
     parent::__construct();
     $this->load->model('core_model');
   }
-
-  public function logout()
+  //CONTENT
+  public function content()
   {
-    $this->session->sess_destroy();
-    redirect(base_url());
+    $data['viewName'] = 'profile/index';
+    return $data;
   }
 
-
 }
+
+?>
