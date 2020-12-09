@@ -73,6 +73,7 @@ class Core_model extends CI_Model
   public function createData($table, $data)
   {
     $result['isSuccess'] = $this->db->insert($table, $data);
+    $result['id'] = $this->db->insert_id();
     $result['content'] = "Data berhasil ditambahkan";
     return $result;
   }
@@ -143,7 +144,7 @@ class Core_model extends CI_Model
 
 
 
-  public function uploadFile($type,$id)
+  public function upload($type,$id)
   {
 
     $filename = $type.'_'.$id;
@@ -160,7 +161,7 @@ class Core_model extends CI_Model
       $upload['message'] = "File berhasil di upload";
       $upload['ext'] = $this->upload->data('file_ext');
       $upload['filename'] = $filename;
-      $this->updateData($type, 'Id', $id, 'Image', $filename.$upload['ext']);
+      $this->updateData($type, 'id', $id, 'image', $filename.$upload['ext']);
     }
     return json_encode($upload);
   }
@@ -213,7 +214,6 @@ class Core_model extends CI_Model
           );
           $this->session->set_userdata($userdata);
           redirect(base_url('home'));
-          //notify('Berhasil', 'Login berhasil, Selamat datang '.$this->session->userdata['name'], 'success', 'fa fa-user','');
         }
         else
         {

@@ -28,7 +28,7 @@
 
 <li class="nav-item active" >
   <a href="<?php echo base_url('stock'); ?>">
-    <i class="fas fa-list"></i>
+    <i class="fas fa-cubes"></i>
     <p>Stok</p>
   </a>
 </li>

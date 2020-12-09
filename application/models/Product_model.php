@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Role_model extends CI_Model
+class Product_model extends CI_Model
 {
 
   function __construct()
@@ -14,7 +14,7 @@ class Role_model extends CI_Model
   {
     if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      $data['viewName'] = 'role/index';
+      $data['viewName'] = 'product/index';
       return $data;
     }
     else
@@ -27,19 +27,25 @@ class Role_model extends CI_Model
   {
     if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      return json_encode($this->core_model->createData('role',  $this->input->post()));
-    }
-    
+      try {  
+        $newProduct = $this->input->post();
+        $newProduct['userId'] = $this->session->userdata('id');
+        return json_encode($this->core_model->createData('product', $newProduct));
+      } catch (Exception $e) {
+        return $e->getMessage();
+      }
+    }    
   }
+
   public function read()
   {
-    $data['role'] = $this->core_model->readAllData('role');
+    $data['product'] = $this->core_model->readAllData('product');
     return json_encode($data);
   }
 
   public function readDetail()
   {
-    $data['detail'] = $this->core_model->readSingleData('role', 'id', $this->input->post('id'));
+    $data['detail'] = $this->core_model->readSingleData('product', 'id', $this->input->post('id'));
     return json_encode($data);
   }
 
@@ -47,7 +53,7 @@ class Role_model extends CI_Model
   {
     if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      return json_encode($this->core_model->updateDataBatch('role',  'id', $this->input->post('id'), $this->input->post()));
+      return json_encode($this->core_model->updateDataBatch('product',  'id', $this->input->post('id'), $this->input->post()));
     }
     
   }
@@ -56,7 +62,7 @@ class Role_model extends CI_Model
   {
     if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      return json_encode($this->core_model->recoverData('role', 'id', $this->input->post('id')));
+      return json_encode($this->core_model->recoverData('product', 'id', $this->input->post('id')));
     }
   }
 
@@ -64,13 +70,10 @@ class Role_model extends CI_Model
   {
     if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
     {
-      return json_encode($this->core_model->deleteData('role', 'id', $this->input->post('id')));
-    }    
+      return json_encode($this->core_model->deleteData('product', 'id', $this->input->post('id')));
+    }
+    
   }
-
-
-
-
 }
 
 ?>

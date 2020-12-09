@@ -29,6 +29,15 @@ $route['api/user/create'] = 'user/create';
 $route['api/user/delete'] = 'user/delete';
 $route['api/user/update'] = 'user/update';
 
+#Product
+$route['product'] = 'product';
+$route['api/product/read'] = 'product/read';
+$route['api/product/readDetail'] = 'product/readDetail';
+$route['api/product/recover'] = 'product/recover';
+$route['api/product/create'] = 'product/create';
+$route['api/product/delete'] = 'product/delete';
+$route['api/product/update'] = 'product/update';
+$route['api/product/upload/(:any)'] = 'product/upload/$1';
 
 #Others
 $route['template'] = 'general/template';

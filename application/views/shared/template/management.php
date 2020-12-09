@@ -172,7 +172,20 @@
 
 		<div class="main-panel">
 			<div class="content">
-        <?php $this->load->view($viewName); ?>
+			<!-- if(file_exists('./assets/script/'.$viewName.'.js'))
+		{
+			echo "<script type='text/javascript' src=".base_url('./assets/script/'.$viewName.'.js')."></script>";
+		}
+	 -->
+
+		<?php
+			if(file_exists('./application/views/'.$viewName.'.php'))
+			{
+				$this->load->view($viewName); 
+			} else {
+				$this->load->view('errors/404'); 
+			}
+		?>
 			</div>
 			<footer class="footer">
 				<div class="container-fluid">
@@ -230,8 +243,8 @@
 	<?php
 		if(file_exists('./assets/script/'.$viewName.'.js'))
 		{
-	    echo "<script type='text/javascript' src=".base_url('./assets/script/'.$viewName.'.js')."></script>";
-	  }
+			echo "<script type='text/javascript' src=".base_url('./assets/script/'.$viewName.'.js')."></script>";
+		}
 	?>
 
 	<script type="text/javascript">
