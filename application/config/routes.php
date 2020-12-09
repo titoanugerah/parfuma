@@ -20,6 +20,14 @@ $route['api/role/create'] = 'role/create';
 $route['api/role/delete'] = 'role/delete';
 $route['api/role/update'] = 'role/update';
 
+#User
+$route['user'] = 'user';
+$route['api/user/read'] = 'user/read';
+$route['api/user/readDetail'] = 'user/readDetail';
+$route['api/user/recover'] = 'user/recover';
+$route['api/user/create'] = 'user/create';
+$route['api/user/delete'] = 'user/delete';
+$route['api/user/update'] = 'user/update';
 
 
 #Others
