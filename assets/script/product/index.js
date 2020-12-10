@@ -15,22 +15,24 @@ function GetDetailProduct(id) {
   $.ajax({
     type: "POST",
     dataType : "JSON",
-    data: {Id: id},
-    url: "getDetailProduct",
+    data: {id: id},
+    url: "api/product/readDetail",
     success: function(result) {
       console.log(result);
       $("#detailProduct").modal('show');
-      $('#nameProduct').val(result.detail.Name);
-      $('#idProduct').val(result.detail.Id);
-      $('#descriptionProduct').val(result.detail.Description);
+      $('#editNameProduct').val(result.detail.name);
+      $('#editPriceProduct').val(result.detail.price);
+      $('#editIdProduct').val(result.detail.id);
+      $('#editDescriptionProduct').val(result.detail.description);
+      $('#editImageProduct').attr('src','assets/picture/'+result.detail.image);
       var html;
-      for(i=0; i<result.product.length; i++){
-        html +=
-        '<tr>'+
-        '<td>'+result.product[i].Name+'</td>'+
-        '</tr>';
-      }
-      $('#productTableList').html(html);
+      // for(i=0; i<result.product.length; i++){
+      //   html +=
+      //   '<tr>'+
+      //   '<td>'+result.product[i].Name+'</td>'+
+      //   '</tr>';
+      // }
+      // $('#productTableList').html(html);
     },
     error: function(result) {
       notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
@@ -45,14 +47,18 @@ function UpdateProduct() {
     type: "POST",
     dataType : "JSON",
     data : {
-      Id: $('#idProduct').val(),
-      Name: $('#nameProduct').val(),
-      Description : $('#descriptionProduct').val()
+      id: $('#editIdProduct').val(),
+      name: $('#editNameProduct').val(),
+      description : $('#editDescriptionProduct').val(),
+      price : $('#editPriceProduct').val(),
     },
-    url: "updateProduct",
+    url: "api/product/update",
     success: function(result) {
       GetProduct();
-      notify('fa fa-user', result.title, result.message, result.type);
+      if($('#fileUpload1').val()!=''){
+        UploadFile('1',$('#editIdProduct').val());
+      }
+      notify('fa fa-user', "Berhasil", result.content, "Success");
     },
     error: function(result) {
       console.log(result);
@@ -63,7 +69,7 @@ function UpdateProduct() {
 
 function UploadFile(type, id) {
   var fd = new FormData();
-  var files = $('#fileUpload')[0].files[0];
+  var files = $('#fileUpload'+type)[0].files[0];
   fd.append('file',files);
   $.ajax({
     url: 'api/product/upload/'+id,
@@ -93,7 +99,7 @@ function ProceedAddProduct() {
       price : $("#addPriceProduct").val()
     },
     success: function(result) {
-      UploadFile('product',result.id);
+      UploadFile('',result.id);
       $("#addProduct").modal('hide');
       notify('fa fa-user', "Berhasil", result.content, "Success");
     },
@@ -103,6 +109,27 @@ function ProceedAddProduct() {
     }
   });
 }
+
+function ProceedDeleteProduct(){
+  $("#detailProduct").modal('hide');
+  $.ajax({
+    type: "POST",
+    dataType : "JSON",
+    data : {
+      id: $('#editIdProduct').val()
+    },
+    url: "api/product/delete",
+    success: function(result) {
+      GetProduct();
+      notify('fa fa-user', "Berhasil", result.content, "success");
+    },
+    error: function(result) {
+      console.log(result);
+      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
+    }
+  });
+}
+
 
 function ProceedRecoverProduct(){
   $("#addProduct").modal('hide');
@@ -149,7 +176,7 @@ function GetProduct() {
           '</h4>' +
           '<br>' +
           '<center>' +
-          '<a type="button" class="btn btn-secondary btn-round" href="detailProduct/'+result.product[i].id+'">Detail</a>'+
+          '<button type="button" class="btn btn-secondary btn-round" onclick="GetDetailProduct('+result.product[i].id+')">Detail</button>'+
           '</center>' +
           '</div>' +
           '</div>' +

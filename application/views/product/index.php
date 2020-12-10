@@ -32,32 +32,50 @@
       </div>
       <form role="form" method="post">
         <div class="modal-body">
-          <ul class="wizard-menu nav nav-pills nav-primary">
-            <li class="step" style="width: 33%;">
+          <!-- <ul class="wizard-menu nav nav-pills nav-primary">
+            <li class="step" style="width: 50%;">
               <a class="nav-link active" href="#aboutProduct" data-toggle="tab" aria-expanded="true"><i class="fa fa-user mr-0"></i> Detail</a>
             </li>
-            <li class="step" style="width: 33%;">
+            <li class="step" style="width: 50%;">
               <a class="nav-link" href="#productList" data-toggle="tab"><i class="fa fa-archive mr-2"></i>Produk</a>
             </li>
-            <li class="step" style="width: 33%;">
+             <li class="step" style="width: 33%;">
               <a class="nav-link" href="#deleteProduct" data-toggle="tab"><i class="fas fa-trash mr-2"></i> Hapus</a>
-            </li>
-          </ul>
+            </li> 
+          </ul> -->
           <div class="tab-content">
             <div class="tab-pane active" id="aboutProduct">
               <div class="row">
-                <div class="form-group col-6 col-md-3">
+                <div class="form-group col-6 col-md-8">
                   <label>Nama Produk</label>
-                  <input type="text" class="form-control" id="nameProduct" >
-                  <input type="text" class="form-control" id="idProduct" hidden>
+                  <input type="text" class="form-control" id="editNameProduct"  >
+                  <input type="text" class="form-control" id="editIdProduct" hidden>
                 </div>
-                <div class="form-group col-6 col-md-9">
-                  <label>Deskripsi</label>
-                  <textarea id="descriptionProduct" rows="2" cols="80" class="form-control"></textarea>
+                <div class="form-group col-6 col-md-4">
+                  <label>Harga</label>
+                  <input type="number" class="form-control" id="editPriceProduct"  >
+                </div>
+                <div class="form-group col-md-7" >
+                  <label>Keterangan</label>
+                  <textarea id="editDescriptionProduct" rows="9" cols="80" class="form-control"></textarea>
+                </div>
+                <div class="form-group col-md-5">
+                  <div class="input-file input-file-image">
+                    <label>Gambar</label>
+                    <img class="img-upload-preview" width="150" src="http://placehold.it/150x150" alt="preview" id="editImageProduct">
+                    <input type="file" class="form-control form-control-file" id="fileUpload1" name="fileUpload1" accept="image/*" required="">
+                    <label for="fileUpload1" class="  label-input-file btn btn-success">
+                      <span class="btn-label">
+                        <i class="fa fa-file-image"></i>
+                      </span>
+                      Upload Foto
+                    </label>
+                  </div>
                 </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" onclick="UpdateProduct()">Simpan</button>
+                <button type="button" class="btn btn-danger" onclick="ProceedDeleteProduct()">Delete</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
               </div>
             </div>
@@ -73,29 +91,7 @@
                 </tbody>
               </table>
             </div>
-            <div class="tab-pane" id="deleteProduct">
-              <br>
-              <div class="card-body card-warning">
-								<div class="card-opening"><b>Peringatan</b></div>
-								<div class="card-desc">
-                  Anda akan menghapus produk ini, silahkan masukan passowrd anda untuk memverifikasi tindakan anda
-								</div>
-							</div>
-              <center>
-              <div class="row">
-                <div class="form-group col-5">
-                  masukan email anda
-                </div>
-                <div class="form-group col-6">
-                  <input type="email" class="form-control" id="emailUser" >
-                </div>
-              </div>
-            </center>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-danger" onclick="DeleteProduct()">Hapus Produk</button>
-              <button type="button" class="btn btn-secondary" data-dismiss="modal">Kembali</button>
-            </div>
-            </div>
+           
           </div>
         </div>
       </form>
@@ -108,9 +104,7 @@
     <!-- Modal content-->
     <div class="modal-content">
       <div class="modal-header">
-        <center>
           <h4>Tambah Produk</h4>
-        </center>
         <button type="button" class="close" data-dismiss="modal">&times;</button>
       </div>
       <form role="form" method="post" enctype="multipart/form-data">
