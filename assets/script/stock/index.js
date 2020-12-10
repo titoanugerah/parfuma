@@ -19,7 +19,25 @@ function detailStockForm(id) {
     url: "api/stock/readDetail",
     success: function(result) {
       console.log(result);
-      $('#editId').val(result.detail.id);
+      var html = '';
+      result.detail.forEach(function(data){
+      html = 
+      '<li class="'+data.position+'">' +
+        '<div class="timeline-badge '+data.color+'"><i class="flaticon-'+data.icon+'"></i></div>' +
+        '<div class="timeline-panel">' + 
+          '<div class="timeline-heading">' +
+            '<h4 class="timeline-title">'+data.content+' '+data.qty+'</h4>' +
+            '<p><small class="text-muted">'+data.date+'</small></p>' +
+          '</div>' +
+          '<div class="timeline-body">' +
+            '<p> '+data.name+'</p>' +
+          '</div>' +
+        '</div>' + 
+      '</li>' + 
+      html;
+      });
+      $('#timelineList').html(html);
+
     },
     error: function(result) {
       console.log(result);
@@ -34,29 +52,9 @@ $("#keyword").on('change', function(){
   $("#keyword").val();
 })
 
-function updateStock(){
-  $.ajax({
-    type: "POST",
-    dataType : "JSON",
-    data : {
-       id : $("#editId").val(),
-       name : $("#editName").val(),
-    },
-    url: "api/stock/update",
-    success: function(result) {
-      $("#detailStockModal").modal('hide');
-      getStock();
-      notify('fas fa-check', 'Berhasil', result.content, 'success');
-    },
-    error: function(result) {
-      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
-    }
-  });
-}
-
 function addNewStockForm() {
   $('#keyword').val("");
-  getStock();
+  getProduct();
   $("#addStockModal").modal('show');
 }
 
@@ -152,6 +150,51 @@ function getStock(){
               '</div>' +
             '</div>';             
         } 
+      });
+
+      $('#stockList').html(html);
+    },
+    error: function(result) {
+      console.log(result);
+      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
+    }
+  });
+
+}
+
+function getProduct(){
+  $.ajax({
+    type: "POST",
+    dataType : "JSON",
+    data : {
+//       keyword : $("#keyword").val(),
+    },
+    url: "api/product/read",
+    success: function(result) {
+      var html = "";
+      var color = "";
+      result.stock.forEach(stock => {          
+          html = html +
+          '<div class="col-sm-6 col-md-4" onclick="detailStockForm('+stock.id+')">' +
+            '<div class="card card-stats card-'+color+' card-round">' +
+                '<div class="card-body">' +
+                  '<div class="row">' +
+                    '<div class="col-3">' +
+                      '<div class="icon-big text-center">' +
+                        stock.qty +
+                      '</div>' +
+                    '</div>' +
+                    '<div class="col-7 col-stats">' +
+                      '<div class="numbers">' +
+                        '<p class="card-category">Stok</p>' +
+                        '<h4 class="card-title">' + uppercase(stock.name) +'</h4>' +
+                      '</div>' +
+                    '</div>' +
+                  '</div>' +
+                '</div>' +
+              '</div>' +
+            '</div>';             
+        
       });
 
       $('#stockList').html(html);

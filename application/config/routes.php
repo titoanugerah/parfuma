@@ -43,10 +43,7 @@ $route['api/product/upload/(:any)'] = 'product/upload/$1';
 $route['stock'] = 'stock';
 $route['api/stock/read'] = 'stock/read';
 $route['api/stock/readDetail'] = 'stock/readDetail';
-$route['api/stock/recover'] = 'stock/recover';
 $route['api/stock/create'] = 'stock/create';
-$route['api/stock/delete'] = 'stock/delete';
-$route['api/stock/update'] = 'stock/update';
 
 
 #Others

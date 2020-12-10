@@ -45,35 +45,10 @@ class Stock_model extends CI_Model
 
   public function readDetail()
   {
-    $data['detail'] = $this->core_model->readSomeData('stock', 'productId', $this->input->post('id'));
+    $data['detail'] = $this->core_model->readSomeData('viewStockList', 'productId', $this->input->post('id'));
     return json_encode($data);
   }
 
-  public function update()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->updateDataBatch('stock',  'id', $this->input->post('id'), $this->input->post()));
-    }
-    
-  }
-
-  public function recover()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->recoverData('stock', 'id', $this->input->post('id')));
-    }
-  }
-
-  public function delete()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->deleteData('stock', 'id', $this->input->post('id')));
-    }
-    
-  }
 }
 
 ?>
