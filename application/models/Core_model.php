@@ -80,28 +80,8 @@ class Core_model extends CI_Model
 
   public function getNumRows($table, $whereVar, $whereVal )
   {
-    // $list = $this->db->list_fields($table);
-    // foreach ($list as $item)
-    // {
-    //   $this->db->or_like($item, $this->input->post('keyword'));
-    // }
-    // $data = $this->db->get($table);
     $data = $this->db->get_where($table, $where = array($whereVar => $whereVal ));
     return $data->num_rows();
-  }
-
-  public function get2SelectedData($table1, $table2, $whereVarTable1, $whereValTable1, $joinVarTable1, $joinVarTable2 )
-  {
-    $query = 'select * FROM '.$table1.' , '.$table2.' where '.$table1.'.'.$whereVarTable1.' = '.$whereValTable1.' and '.$table1.'.'.$joinVarTable1.' = '.$table2.'.'.$joinVarTable2;
-    $data = $this->db->query($query);
-    return $data->row();
-  }
-
-  public function get2SomeData($table1, $table2, $whereVarTable1, $whereValTable1, $joinVarTable1, $joinVarTable2 )
-  {
-    $query = 'select * FROM '.$table1.' , '.$table2.' where '.$table1.'.'.$whereVarTable1.' = '.$whereValTable1.' and '.$table1.'.'.$joinVarTable1.' = '.$table2.'.'.$joinVarTable2;
-    $data = $this->db->query($query);
-    return $data->result();
   }
 
   public function updateData($table, $whereVar, $whereVal, $setVar, $setVal)
@@ -142,6 +122,31 @@ class Core_model extends CI_Model
     return $result;
   }
 
+  public function createLog($log)
+  {
+    $log['userId'] = $this->session->userdata('id');
+    return $this->createData('log', $log);
+  }
+
+  public function createLogTransaction($orderId, $statusId)
+  {
+    $name = $this->session->userdata('name');
+    if($statusId == 2){
+      $remark =  $name.' selaku pembeli berhasil melakukan checkout, selanjutnya pembeli diharuskan membayar sesuai subtotal yang ada dan penjual diharapkan mengkonfirmasi pembayaran yang dikirm oleh pembeli ';
+    } else if($statusId == 3){
+      $remark = $name.' selaku penjual berhasil melakukan konfirmasi pembayaran, selanjutnya barang sedang dikemas oleh penjual ';
+    } else if($statusId == 4){
+      $remark = $name.' selaku penjual berhasil melakukan pengiriman ';
+    } 
+
+    $log = array(
+      'type' => 3,
+      'key' => $orderId,
+      'statusId' => $statusId,
+      'remark' => $remark
+    );
+     return $this->createLog($log);
+  }
 
 
   public function upload($type,$id)

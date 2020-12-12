@@ -1,36 +1,97 @@
 $(document).ready(function(){
   $('.select2modal').select2({
-      dropdownParent: $('#detailStockModal')
+      dropdownParent: $('#detailOrderModal')
   });
   $('.select2addmodal').select2({
-      dropdownParent: $('#addStockModal')
+      dropdownParent: $('#addOrderModal')
   });
-  getStock();
+  getOrder();
+  $.fn.dataTable.ext.errMode = 'none';
+  
 });
 
-function detailStockForm(id) {
-  $("#detailStockModal").modal('show');
+
+
+function confirm(){
+  var url;
+  var id = $('#id').val();
+  if($('#statusId').val()==2){
+    url="api/order/confirmPayment";
+  } else if ($('#statusId').val()==3 && $('#awb').val()!= "" ){
+    url="api/order/confirmDelivery";
+  } else if ($('#statusId').val()==3 && $('#awb').val()== "" ){
+    notify('fas fa-times', 'Gagal', "Mohon isi nomor resi terlebih dahulu", 'danger');
+    return;
+  } else {
+    notify('fas fa-times', 'Gagal', "Tidak ada yang perlu dikonfirmasi", 'danger');    
+    return;
+  }
   $.ajax({
     type: "POST",
     dataType : "JSON",
     data : {
        id : id,
     },
-    url: "api/stock/readDetail",
+    url: url,
+    success: function(result) {
+      detailOrderForm(id);
+    },
+    error: function(result) {
+      console.log(result);
+      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
+    }
+  });
+}
+
+function detailOrderForm(id) {
+  $("#detailOrderModal").modal('show');
+  $.ajax({
+    type: "POST",
+    dataType : "JSON",
+    data : {
+       id : id,
+    },
+    url: "api/order/readDetail",
     success: function(result) {
       console.log(result);
       var html = '';
-      result.detail.forEach(function(data){
+      var position ;
+      $('#example').DataTable( {
+        "serverSide" : true,
+        "ajax": {
+          'url' : 'api/order/readDetail/'+id,
+          'type' : 'post',
+        },
+        "columns": [
+          { "data": "product",},
+          { "data": "price" },
+          { "data": "qty" },
+          { "data": "total" }
+        ]
+      });
+      $('#id').val(result.order.id);
+      $('#awb').val(result.order.awb);
+      $('#name').val(result.order.name);
+      $('#date').val(result.order.date);
+      $('#statusId').val(result.order.statusId);
+      $('#image').attr('src',result.order.image);
+      $('#subtotal').val(result.order.subtotal);
+      result.log.forEach(log => {
+        if(log.roleId != 1){
+          position = 'timeline-inverted';
+        } else {
+          postition = 'timeline';
+        }
         html = 
-        '<li class="'+data.position+'">' +
-          '<div class="timeline-badge '+data.color+'"><i class="flaticon-'+data.icon+'"></i></div>' +
+        '<li class="'+position+'">' +
+          '<div class="timeline-badge primary"><i class="flaticon-plus"></i></div>' +
           '<div class="timeline-panel">' + 
             '<div class="timeline-heading">' +
-              '<h4 class="timeline-title">'+data.content+' '+data.qty+'</h4>' +
-              '<p><small class="text-muted">'+data.date+'</small></p>' +
+              '<h4 class="timeline-title">'+log.status+'</h4>' +
+//              '<p><small class="text-muted">'+log.description+'</small></p>' +
             '</div>' +
             '<div class="timeline-body">' +
-              '<p> '+data.name+'</p>' +
+              '<p> '+log.description+'</p>' +
             '</div>' +
           '</div>' + 
         '</li>' + 
@@ -38,6 +99,7 @@ function detailStockForm(id) {
       });
       $('#timelineList').html(html);
 
+     
     },
     error: function(result) {
       console.log(result);
@@ -48,43 +110,10 @@ function detailStockForm(id) {
 }
 
 $("#keyword").on('change', function(){
-  getStock();
+  getOrder();
   $("#keyword").val();
 })
 
-function addNewStockForm() {
-  $('#keyword').val("");
-  getProduct();
-  $("#addStockModal").modal('show');
-}
-
-function addStock() {
-  var qty;
-  if($("#code").val()==2 || $("#code").val()==3){
-    qty = - $("#qty").val();
-  } else {
-    qty = $("#qty").val();   
-  }
-  $.ajax({
-    type: "POST",
-    dataType : "JSON",
-    data : {
-       productId : $("#productId").val(),
-       code : $("#code").val(),
-       qty : qty       
-    },
-    url: "api/stock/create",
-    success: function(result) {
-      $("#addStockModal").modal('hide');
-      notify('fas fa-check', 'Berhasil', result.content, 'success');
-      getStock();
-    },
-    error: function(result) {
-      console.log(result);
-      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
-    }
-  });
-}
 
 function getErrorMsg(result){
   var responseInArray = result.split('\n');
@@ -115,76 +144,49 @@ function getErrorMsg(result){
   return error.toString();  
 }
 
-function getStock(){
+function getOrder(){
   $.ajax({
     type: "POST",
     dataType : "JSON",
     data : {
        keyword : $("#keyword").val(),
     },
-    url: "api/stock/read",
+    url: "api/order/read",
     success: function(result) {
+      console.log(result);
       var html = "";
       var color = "";
-      result.stock.forEach(stock => {
-        if(stock.isExist == 1){
+      result.order.forEach(order => {
           
-          if(stock.qty>=5){
-            color = 'info';
-          } else if(stock.qty>1 && stock.qty<5){
-            color = 'warning';
-          } else {
+          if(order.statusId==1){
+            color = 'grey';
+          } else if(order.statusId==2){
             color = 'danger';
+          } else if(order.statusId==3){
+            color = 'warning';
+          } else if(order.statusId==4){
+            color = 'success';
           }
 
           html = html +
-          '<div class="col-sm-6 col-md-4" onclick="detailStockForm('+stock.id+')">' +
+          '<div class="col-sm-6 col-md-3" onclick="detailOrderForm('+order.id+')">' +
             '<div class="card card-stats card-'+color+' card-round">' +
                 '<div class="card-body">' +
                   '<div class="row">' +
-                    '<div class="col-3">' +
-                      '<div class="icon-big text-center">' +
-                        stock.qty +
-                      '</div>' +
-                    '</div>' +
-                    '<div class="col-7 col-stats">' +
+                    '<div class="col-12 col-stats">' +
                       '<div class="numbers">' +
-                        '<p class="card-category">Stok</p>' +
-                        '<h4 class="card-title">' + uppercase(stock.name) +'</h4>' +
+                        '<p class="card-category">'+order.status+'</p>' +
+                        '<p class="card-category">'+order.date+'</p>' +
+                        '<h4 class="card-title">' + uppercase(order.name) +'</h4>' +
                       '</div>' +
                     '</div>' +
                   '</div>' +
                 '</div>' +
               '</div>' +
             '</div>';             
-        } 
       });
 
-      $('#stockList').html(html);
-    },
-    error: function(result) {
-      console.log(result);
-      notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
-    }
-  });
-
-}
-
-function getProduct(){
-  $.ajax({
-    type: "POST",
-    dataType : "JSON",
-    data : {
-//       keyword : $("#keyword").val(),
-    },
-    url: "api/product/read",
-    success: function(result) {
-      console.log(result);
-      var html = "";
-      result.product.forEach(product => {
-        html = html + '<option value="'+product.id+'" selected>'+product.name+' </option>';
-      });
-      $('#productId').html(html);
+      $('#orderList').html(html);
     },
     error: function(result) {
       console.log(result);

@@ -36,6 +36,6 @@
 <li class="nav-item active" >
   <a href="<?php echo base_url('order'); ?>">
     <i class="fas fa-shopping-cart"></i>
-    <p>Order</p>
+    <p>Penjualan</p>
   </a>
 </li>

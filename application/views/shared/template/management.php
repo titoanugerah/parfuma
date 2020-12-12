@@ -1,3 +1,5 @@
+<?php if(!$this->session->userdata('isLogin')){redirect(base_url(''));}?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -163,7 +165,7 @@
 						</div>
 					</div>
 					<ul class="nav nav-primary">
-          			  <?php if($this->session->userdata('isLogin')){$this->load->view('menu/'.$this->session->userdata('role'));} ?>
+          			  <?php if($this->session->userdata('isLogin') && (file_exists('./application/views/shared/menu/'.$this->session->userdata('role').'.php'))){$this->load->view('shared/menu/'.$this->session->userdata('role'));} ?>
 					</ul>
 				</div>
 			</div>

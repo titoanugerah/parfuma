@@ -45,6 +45,18 @@ $route['api/stock/read'] = 'stock/read';
 $route['api/stock/readDetail'] = 'stock/readDetail';
 $route['api/stock/create'] = 'stock/create';
 
+#Order
+$route['order'] = 'order';
+$route['api/order/read'] = 'order/read';
+$route['api/order/readDetail'] = 'order/readDetail';
+$route['api/order/readDetail/(:any)'] = 'order/readDetailTable/$1';
+//$route['api/order/recover'] = 'order/recover';
+//$route['api/order/create'] = 'order/create';
+//$route['api/order/delete'] = 'order/delete';
+//$route['api/order/update'] = 'order/update';
+//$route['api/order/upload/(:any)'] = 'order/upload/$1';
+$route['api/order/confirmPayment'] = 'order/confirmPayment';
+$route['api/order/confirmDelivery'] = 'order/confirmDelivery';
 
 #Others
 $route['template'] = 'general/template';
