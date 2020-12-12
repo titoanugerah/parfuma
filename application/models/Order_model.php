@@ -60,14 +60,6 @@ class Order_model extends CI_Model
     return json_encode($result);
   }
 
-  public function update()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->updateDataBatch('order',  'id', $this->input->post('id'), $this->input->post()));
-    } 
-  }
-
   public function confirmDelivery()
   {
     $id = $this->input->post('id');
@@ -84,22 +76,6 @@ class Order_model extends CI_Model
     return http_response_code(200);
   }
 
-  public function recover()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->recoverData('order', 'id', $this->input->post('id')));
-    }
-  }
-
-  public function delete()
-  {
-    if ($this->session->userdata['roleId'] != $this->config->item('customer_role_id'))
-    {
-      return json_encode($this->core_model->deleteData('order', 'id', $this->input->post('id')));
-    }
-    
-  }
 }
 
 ?>

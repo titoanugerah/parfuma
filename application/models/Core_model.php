@@ -84,6 +84,13 @@ class Core_model extends CI_Model
     return $data->num_rows();
   }
 
+  public function getNumRow($table )
+  {
+    $data = $this->db->get($table);
+    return $data->num_rows();
+  }
+
+
   public function updateData($table, $whereVar, $whereVal, $setVar, $setVal)
   {
     $where = array($whereVar => $whereVal );

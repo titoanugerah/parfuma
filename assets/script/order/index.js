@@ -34,7 +34,8 @@ function confirm(){
     },
     url: url,
     success: function(result) {
-      detailOrderForm(id);
+      $("#detailOrderModal").modal('hide');
+      getOrder();      
     },
     error: function(result) {
       console.log(result);
@@ -106,7 +107,6 @@ function detailOrderForm(id) {
       notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
     }
   });
-
 }
 
 $("#keyword").on('change', function(){

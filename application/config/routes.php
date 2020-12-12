@@ -11,7 +11,7 @@ $route['dashboard'] = 'dashboard';
 #Profile
 $route['profile'] = 'profile';
 
-#ROLE
+#Role
 $route['role'] = 'role';
 $route['api/role/read'] = 'role/read';
 $route['api/role/readDetail'] = 'role/readDetail';
@@ -50,13 +50,13 @@ $route['order'] = 'order';
 $route['api/order/read'] = 'order/read';
 $route['api/order/readDetail'] = 'order/readDetail';
 $route['api/order/readDetail/(:any)'] = 'order/readDetailTable/$1';
-//$route['api/order/recover'] = 'order/recover';
-//$route['api/order/create'] = 'order/create';
-//$route['api/order/delete'] = 'order/delete';
-//$route['api/order/update'] = 'order/update';
-//$route['api/order/upload/(:any)'] = 'order/upload/$1';
 $route['api/order/confirmPayment'] = 'order/confirmPayment';
 $route['api/order/confirmDelivery'] = 'order/confirmDelivery';
+
+#Report
+$route['report'] = 'report';
+$route['api/report/read'] = 'report/read';
+$route['api/report/readDetail'] = 'report/readDetail';
 
 #Others
 $route['template'] = 'general/template';
