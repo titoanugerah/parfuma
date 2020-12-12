@@ -32,7 +32,31 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label>Produk</label>
+                  &nbsp;&nbsp;&nbsp;&nbsp;
 
+                    <select class="form-control select2addmodal" id="productId" style="width:380px">
+
+                    </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Tipe</label>
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    <select class="form-control select2addmodal" id="code" style="width:190px">
+                      <option value="1">Tambah Stok</option>
+                      <option value="2">Stok Terjual Online</option>
+                      <option value="3">Stok Terjual Offline</option>
+                      <option value="4">Penyesuaian</option>
+                    </select>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Jumlah</label>
+                     &nbsp;&nbsp;&nbsp;&nbsp;
+                  <input type="text" class="form-control" id="qty">
                 </div>
               </div>
             </div>

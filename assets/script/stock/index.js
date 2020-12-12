@@ -59,11 +59,19 @@ function addNewStockForm() {
 }
 
 function addStock() {
+  var qty;
+  if($("#code").val()==2 || $("#code").val()==3){
+    qty = - $("#qty").val();
+  } else {
+    qty = $("#qty").val();   
+  }
   $.ajax({
     type: "POST",
     dataType : "JSON",
     data : {
-       name : $("#addName").val(),
+       productId : $("#productId").val(),
+       code : $("#code").val(),
+       qty : qty       
     },
     url: "api/stock/create",
     success: function(result) {
@@ -171,33 +179,12 @@ function getProduct(){
     },
     url: "api/product/read",
     success: function(result) {
+      console.log(result);
       var html = "";
-      var color = "";
-      result.stock.forEach(stock => {          
-          html = html +
-          '<div class="col-sm-6 col-md-4" onclick="detailStockForm('+stock.id+')">' +
-            '<div class="card card-stats card-'+color+' card-round">' +
-                '<div class="card-body">' +
-                  '<div class="row">' +
-                    '<div class="col-3">' +
-                      '<div class="icon-big text-center">' +
-                        stock.qty +
-                      '</div>' +
-                    '</div>' +
-                    '<div class="col-7 col-stats">' +
-                      '<div class="numbers">' +
-                        '<p class="card-category">Stok</p>' +
-                        '<h4 class="card-title">' + uppercase(stock.name) +'</h4>' +
-                      '</div>' +
-                    '</div>' +
-                  '</div>' +
-                '</div>' +
-              '</div>' +
-            '</div>';             
-        
+      result.product.forEach(product => {
+        html = html + '<option value="'+product.id+'" selected>'+product.name+' </option>';
       });
-
-      $('#stockList').html(html);
+      $('#productId').html(html);
     },
     error: function(result) {
       console.log(result);
@@ -211,50 +198,6 @@ function uppercase(string){
   return string.charAt(0).toUpperCase() + string.slice(1);
 }
 
-function deleteStock() {
-  $.ajax({
-    type: "POST",
-    dataType : "JSON",
-    data : {
-       id : $("#editId").val(),
-    },
-    url: "api/stock/delete",
-    success: function(result) {
-      $("#detailStockModal").modal('hide');
-      notify('fas fa-check', 'Berhasil', result.content, 'success');
-      getStock();
-    },
-    error: function(result) {
-      console.log(result);
-       notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
-    }
-  });
-}
-
-function recoverStock() {
-  if($('#recoverStockId').val()!=0)
-  {
-    $.ajax({
-      type: "POST",
-      dataType : "JSON",
-      data : {
-        id : $("#recoverStockId").val(),
-      },
-      url: "api/stock/recover",
-      success: function(result) {
-        $("#addStockModal").modal('hide');
-        notify('fas fa-check', 'Berhasil', result.content, 'success');
-        getStock();
-      },
-      error: function(result) {
-        notify('fas fa-times', 'Gagal', getErrorMsg(result.responseText), 'danger');
-      }
-    });
-
-  } else {
-    notify('fas fa-bell', 'Gagal', 'Mohon pilih dengan benar', 'danger');
-  }
-}
 
 function unauthorized() {
   notify('fas fa-user', 'Tidak diijinkan', 'Anda tidak memiliki hak akses untuk mengedit kolom ini', 'danger');
