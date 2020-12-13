@@ -72,6 +72,16 @@ class Order_model extends CI_Model
   {
     $id = $this->input->post('id');
     $this->core_model->createLogTransaction($id, 3);
+    foreach($this->core_model->readSomeData('orderDetail', 'orderId', $id) as $item){
+      $stock = array(
+        'productId' => $item->productId,
+        'qty' => -$item->qty,
+        'userId' => $this->session->userdata('id'),
+        'code' => 2,
+        'remark' => 'Terjual dengan Id Order '.$id
+      );
+      $this->core_model->createData('stock', $stock);
+    }
     $this->core_model->updateData('order', 'id', $id, 'lastLogId', $this->db->insert_id());
     return http_response_code(200);
   }
