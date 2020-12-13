@@ -15,6 +15,11 @@ class Home_model extends CI_Model
   public function content()
   {
     $data['viewName'] = 'home/index';
+    $list = $this->db->list_fields('product');
+    foreach ($list as $item)
+    {
+        $this->db->or_like($item, $this->input->post('keyword'));
+    }
     $data['products'] = ($this->db->get('product'))->result();
     $this->core_model->account();
     return $data;

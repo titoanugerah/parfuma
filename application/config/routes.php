@@ -3,10 +3,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 // link == controller/function
 $route['default_controller'] = 'home';
+
 $route['logout'] = 'user/logout';
 
 #Dashboard
 $route['dashboard'] = 'dashboard';
+
+#Checkout
+$route['checkout'] = 'checkout';
+$route['api/checkout'] = 'checkout/startCheckout';
+$route['api/checkout/delete/(:any)'] = 'checkout/delete/$1';
+$route['api/checkout/update/(:any)'] = 'checkout/update/$1';
 
 #Profile
 $route['profile'] = 'profile';

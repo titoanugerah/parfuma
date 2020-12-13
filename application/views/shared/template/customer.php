@@ -93,8 +93,7 @@ Author URL: http://w3layouts.com
 							<div class="popup">
 
 								<form method="post" class="search-box">
-									<input type="search" placeholder="Cari parfum" name="search" required="required"
-										autofocus="">
+									<input type="search" placeholder="Cari parfum" name="keyword" id="keyword" autofocus="">
 									<button type="submit" class="btn">Cari</button>
 								</form>
 
@@ -124,142 +123,27 @@ Author URL: http://w3layouts.com
 			</nav>
 			<!--//nav-->
 		</header>
-		<div class="bannerhny-content">
+		<?php
+	if(file_exists('./application/views/'.$viewName.'2.php'))
+	{
+		$this->load->view($viewName.'2'); 
+	} else {
+		$this->load->view('errors/404'); 
+	}
+?>
 
-			<!--/banner-slider-->
-			<div class="content-baner-inf">
-				<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
-					<ol class="carousel-indicators">
-						<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
-						<li data-target="#carouselExampleIndicators" data-slide-to="3"></li>
-					</ol>
-					<div class="carousel-inner">
-						<div class="carousel-item active">
-							<div class="container">
-								<div class="carousel-caption">
-									<h3>Women's
-										Fashion
-										<br>50% Off</h3>
-									<a href="#" class="shop-button btn">
-										Shop Now
-									</a>
-
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item item2">
-							<div class="container">
-								<div class="carousel-caption">
-									<h3>Men's
-										Fashion
-										<br>60% Off</h3>
-									<a href="#" class="shop-button btn">
-										Shop Now
-									</a>
-
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item item3">
-							<div class="container">
-								<div class="carousel-caption">
-									<h3>Women's
-										Fashion
-										<br>50% Off</h3>
-									<a href="#" class="shop-button btn">
-										Shop Now
-									</a>
-
-								</div>
-							</div>
-						</div>
-						<div class="carousel-item item4">
-							<div class="container">
-								<div class="carousel-caption">
-									<h3>Men's
-										Fashion
-										<br>60% Off</h3>
-									<a href="#" class="shop-button btn">
-										Shop Now
-									</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-						<span class="carousel-control-prev-icon" aria-hidden="true"></span>
-						<span class="sr-only">Previous</span>
-					</a>
-					<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-						<span class="carousel-control-next-icon" aria-hidden="true"></span>
-						<span class="sr-only">Next</span>
-					</a>
-				</div>
-			</div>
-			<!--//banner-slider-->
-			<!--//banner-slider-->
-			<div class="right-banner">
-				<div class="right-1">
-					<h4>
-						Men's
-						Fashion
-						<br>50% Off</h4>
-				</div>
-			</div>
-
-		</div>
 
 </section>
 
+<?php
+	if(file_exists('./application/views/'.$viewName.'.php'))
+	{
+		$this->load->view($viewName); 
+	} else {
+		$this->load->view('errors/404'); 
+	}
+?>
 
-<section class="w3l-ecommerce-main">
-	<!-- /products-->
-	<div class="ecom-contenthny py-5">
-		<div class="container py-lg-5">
-			<h3 class="hny-title mb-0 text-center">Belanja parfum <span>Disini</span></h3>
-			<!-- /row-->
-			<div class="ecom-products-grids row mt-lg-5 mt-3">
-				<?php foreach($products as $product){ ?>
-				
-				<div class="col-lg-3 col-6 product-incfhny mt-4">
-					<div class="product-grid2 transmitv">
-						<div class="product-image2">
-							<a href="#">
-								<img class="pic-1 img-fluid" src="<?php echo base_url('assets/picture/'.$product->image); ?>">
-								<img class="pic-2 img-fluid" src="<?php echo base_url('assets/picture/'.$product->image); ?>">
-							</a>
-							<ul class="social">
-									<li><a href="#" data-tip="Add to Cart"><span class="fa fa-shopping-bag"></span></a>
-									</li>
-							</ul>
-							<div class="transmitv single-item">
-							<form action="#" method="post">
-									<input type="hidden" name="cmd" value="_cart">
-									<input type="hidden" name="add" value="1">
-									<input type="hidden" name="transmitv_item" value="<?php echo $product->name; ?>">
-									<input type="hidden" name="amount" value="<?php echo $product->price; ?>">
-									<button type="submit" class="transmitv-cart ptransmitv-cart add-to-cart">
-										Tambah ke keranjang
-									</button>
-								</form>
-							</div>
-						</div>
-						<div class="product-content">
-							<h3 class="title"><a href="#"><?php echo $product->name; ?></a></h3>
-							<span class="price">RP. <?php echo $product->price; ?></span>
-						</div>
-					</div>
-				</div>
-				<?php } ?>
-
-
-			</div>
-			<!-- //row-->
-		</div>
-	</div>
-</section>
 <!-- //products-->
 
 <!-- //content-6-section -->
@@ -360,13 +244,15 @@ Author URL: http://w3layouts.com
      transmitv.render();
 
      transmitv.cart.on('transmitv_checkout', function (evt) {
-         var items, len, i;
+		 var items, len, i;	
+		
 
          if (this.subtotal() > 0) {
              items = this.items();
 
              for (i = 0, len = items.length; i < len; i++) {}
-         }
+		 }
+//		 this.cart
      });
  </script>
  <!-- //cart-js -->
@@ -398,6 +284,7 @@ Author URL: http://w3layouts.com
       $('body').toggleClass('noscroll');
     })
   });
+
 </script>
 <!-- disable body scroll which navbar is in active -->
 <script src="<?php echo base_url('assets/template/sprystore/'); ?>assets/js/bootstrap.min.js"></script>

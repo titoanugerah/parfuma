@@ -72,6 +72,7 @@ function detailOrderForm(id) {
       });
       $('#id').val(result.order.id);
       $('#awb').val(result.order.awb);
+      $('#address').val(result.order.address);
       $('#name').val(result.order.name);
       $('#date').val(result.order.date);
       $('#statusId').val(result.order.statusId);

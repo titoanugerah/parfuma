@@ -18,6 +18,13 @@ class Core_model extends CI_Model
     return $data->row();
   }
 
+
+  public function readSingleData2($table, $where)
+  {
+    $data = $this->db->get_where($table, $where );
+    return $data->row();
+  }
+
   public function readSomeData($table, $whereVar, $whereVal )
   {
     $list = $this->db->list_fields($table);

@@ -1903,7 +1903,7 @@ var defaults = module.exports = {
 
     parent: (typeof document !== 'undefined') ? document.body : null,
 
-    action: '#',
+    action: 'api/checkout',
 
     target: '',
 
@@ -1914,6 +1914,7 @@ var defaults = module.exports = {
     styles: '',
 
     strings: {
+//        buttonAlt :
         button: 'Check Out',
         subtotal: 'Subtotal:',
         discount: 'Discount:',
@@ -2380,7 +2381,7 @@ var currencies = {
     HKD: { before: '$', code: true },
     HRK: { before: 'kn' },
     HUF: { before: 'Ft' },
-    IDR: { before: 'Rp' },
+    IDR: { before: 'Rp.' },
     ILS: { before: '\u20AA' },
     INR: { before: 'Rs.' },
     ISK: { before: 'kr' },
@@ -2418,7 +2419,7 @@ var currencies = {
 
 
 module.exports = function currency(amount, config) {
-    var code = config && config.currency || 'USD',
+    var code = config && config.currency || 'IDR',
         value = currencies[code],
         before = value.before || '',
         after = value.after || '',
