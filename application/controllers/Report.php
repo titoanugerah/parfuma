@@ -21,15 +21,8 @@ class Report extends CI_Controller
     echo $this->report_model->read();
   }
 
-  public function readDetail()
+  public function chart()
   {
-    echo $this->report_model->readDetail();
+    echo $this->report_model->chart();
   }
-
-  public function create()
-  {
-    echo $this->report_model->create();
-  }
-
-
 }

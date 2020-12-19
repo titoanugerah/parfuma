@@ -63,7 +63,8 @@ $route['api/order/confirmDelivery'] = 'order/confirmDelivery';
 #Report
 $route['report'] = 'report';
 $route['api/report/read'] = 'report/read';
-$route['api/report/readDetail'] = 'report/readDetail';
+#$route['api/report/readDetail'] = 'report/readDetail';
+$route['api/report/chart'] = 'report/chart';
 
 #Others
 $route['template'] = 'general/template';

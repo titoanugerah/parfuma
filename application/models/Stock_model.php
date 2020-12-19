@@ -39,7 +39,12 @@ class Stock_model extends CI_Model
 
   public function read()
   {
+    $data['draw'] = 1;
+    $data['recordsTotal'] = $this->core_model->getNumRow('viewStock');
+    $data['recordsFiltered'] = $data['recordsTotal'];
+    // $data['data'] = ($this->db->query('select product, price, qty, total from viewOrderDetail where orderId = '.$id))->result_array();
     $data['stock'] = $this->core_model->readAllData('viewStock');
+    $data['data'] = $data['stock'];
     return json_encode($data);
   }
 

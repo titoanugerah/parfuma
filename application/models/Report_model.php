@@ -28,14 +28,15 @@ class Report_model extends CI_Model
     $result['draw'] = 1;
     $result['recordsTotal'] = $this->core_model->getNumRow('viewOrderDetail','','');
     $result['recordsFiltered'] = $this->core_model->getNumRow('viewOrderDetail','','');
-    $data['data'] = $this->core_model->readAllData('viewOrderDetail');
-    return json_encode($data);
+    $result['data'] = $this->core_model->readAllData('viewOrderDetail');
+    return json_encode($result);
   }
 
-  public function readDetail()
+  public function chart()
   {
-    $data['detail'] = $this->core_model->readSomeData('viewReportList', 'productId', $this->input->post('id'));
-    return json_encode($data);
+    $result['stock'] = $this->core_model->readAllData('viewSoldReport');
+    $result['order'] = ($this->db->query('call getReportOrder()'))->result();
+    return json_encode($result);
   }
 
 }
